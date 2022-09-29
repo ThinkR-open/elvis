@@ -1,22 +1,21 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-
 
 # elvis
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-[EXPERIMENTAL, DO NOT USE]
+\[EXPERIMENTAL, DO NOT USE\]
 
-The goal of `{elvis}` is to provide safer render* and observe* in `{shiny}` by providing a native tryCatch() mecanism. 
+The goal of `{elvis}` is to provide safer render\* and observe\* in
+`{shiny}` by providing a native tryCatch() mechanism.
 
-Note that this is an experimental package, so the API might change and some stuff might be buggy.
+Note that this is an experimental package, so the API might change and
+some stuff might be buggy.
 
 ## Installation
 
@@ -28,29 +27,72 @@ remotes::install_github("thinkr-open/elvis")
 
 ## What the heck
 
-By default, `{shiny}` observers and renderers are not safe, and might stop your app when they fail. 
-One solution is to wrap your code inside tryCatch, but that might be cumbersum to do this every time. 
+By default, `{shiny}` observers and renderers are not safe, and might
+stop your app when they fail. One solution is to wrap your code inside
+tryCatch, but that might be cumbersum to do this every time.
 
-Here comes `{elvis}`, a series of wrappers around `{shiny}` observers and renderers that have built in tryCatch. 
+Here comes `{elvis}`, a series of wrappers around `{shiny}` observers
+and renderers that have built in tryCatch.
 
-```r
+``` r
 output$plot <- try_renderPlot({
     stop("a")
   },
   errorHandler = function(e){
-    showNotification("There was an error with the plot")
+    showNotification("There was an error in the plot")
   }
 )
 ```
 
-The base idea is to prefix all the functions with `try_`, so that it's easier to port old code to `{elvis}`.
+The base idea is to prefix all the functions with `try_`, so that it’s
+easier to port old code to `{elvis}`.
 
 ## Examples
 
+Here is a simple example:
+
+``` r
+library(shiny)
+library(elvis)
+ui <- fluidPage(
+  actionButton("go", "Go"),
+  plotOutput("plot")
+)
+
+server <- function(input, output, session) {
+  r <- reactiveValues(count = 0)
+
+  output$plot <- try_renderPlot(
+    {
+      if (input$go %% 2 == 0) {
+        plot(sample(1:100, 10))
+      } else {
+        stop("Nop")
+      }
+    },
+    errorHandler = function(e) {
+      isolate({
+        r$count <- r$count + 1
+      })
+    }
+  )
+
+  observeEvent(
+    r$count,
+    {
+      cli::cli_alert_danger(
+        sprintf("It's been %s times", r$count)
+      )
+    }
+  )
+}
+
+shinyApp(ui, server)
+```
+
 ### observers
 
-
-```r
+``` r
 library(elvis)
 library(shiny)
 ui <- fluidPage(
@@ -69,7 +111,7 @@ server <- function(input, output, session) {
       showModal(
         modalDialog(
           easyClose = TRUE,
-          title = "There was an error with the try_observeEvent"
+          title = "There was an error in the try_observeEvent"
         )
       )
     }
@@ -91,7 +133,7 @@ server <- function(input, output, session) {
       showModal(
         modalDialog(
           easyClose = TRUE,
-          title = "There was an error with the try_observe"
+          title = "There was an error in the try_observe"
         )
       )
     }
@@ -108,10 +150,9 @@ shinyApp(ui, server)
 
 ### renderers
 
-+ try_renderPlot
+-   try_renderPlot
 
-
-```r
+``` r
 library(elvis)
 library(shiny)
 ui <- fluidPage(
@@ -128,7 +169,7 @@ server <- function(input, output, session) {
     },
     errorHandler = function(e) {
       showNotification(
-        "There was an error with the plot",
+        "There was an error in the plot",
         type = "error"
       )
     }
@@ -143,10 +184,9 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
-+ try_renderDataTable
+-   try_renderDataTable
 
-
-```r
+``` r
 library(elvis)
 library(shiny)
 ui <- fluidPage(
@@ -163,7 +203,7 @@ server <- function(input, output, session) {
     },
     errorHandler = function(e) {
       showNotification(
-        "There was an error with the DT",
+        "There was an error in the DT",
         type = "error"
       )
     }
@@ -181,11 +221,9 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
+-   try_renderImage
 
-+ try_renderImage
-
-
-```r
+``` r
 library(elvis)
 library(shiny)
 library(zeallot)
@@ -222,7 +260,7 @@ server <- function(input, output, session) {
     },
     errorHandler = function(e) {
       showNotification(
-        "There was an error with the img",
+        "There was an error in the img",
         type = "error"
       )
     }
@@ -248,10 +286,9 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
-+ try_renderPrint
+-   try_renderPrint
 
-
-```r
+``` r
 library(elvis)
 library(shiny)
 ui <- fluidPage(
@@ -268,7 +305,7 @@ server <- function(input, output, session) {
     },
     errorHandler = function(e) {
       showNotification(
-        "There was an error with the print",
+        "There was an error in the print",
         type = "error"
       )
     }
@@ -283,11 +320,9 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
+-   try_renderText
 
-+ try_renderText
-
-
-```r
+``` r
 library(elvis)
 library(shiny)
 ui <- fluidPage(
@@ -304,7 +339,7 @@ server <- function(input, output, session) {
     },
     errorHandler = function(e) {
       showNotification(
-        "There was an error with the text",
+        "There was an error in the text",
         type = "error"
       )
     }
@@ -319,10 +354,9 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
-+ try_renderTable
+-   try_renderTable
 
-
-```r
+``` r
 library(elvis)
 library(shiny)
 ui <- fluidPage(
@@ -339,7 +373,7 @@ server <- function(input, output, session) {
     },
     errorHandler = function(e) {
       showNotification(
-        "There was an error with the table",
+        "There was an error in the table",
         type = "error"
       )
     }
@@ -357,10 +391,9 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
-+ try_renderUI
+-   try_renderUI
 
-
-```r
+``` r
 library(elvis)
 library(shiny)
 ui <- fluidPage(
@@ -377,7 +410,7 @@ server <- function(input, output, session) {
     },
     errorHandler = function(e) {
       showNotification(
-        "There was an error with the UI",
+        "There was an error in the UI",
         type = "error"
       )
     }
@@ -393,11 +426,14 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
-
 ## Why the name?
 
-With `{elvis}`, you're __t__rying to r__ender__, and love me tender, love me true.
+With `{elvis}`, you’re \_\_t\_\_rying to r**ender**, and love me tender,
+love me true.
 
 ## Code of Conduct
 
-Please note that the elvis project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+Please note that the elvis project is released with a [Contributor Code
+of
+Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.

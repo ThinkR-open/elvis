@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 
 [EXPERIMENTAL, DO NOT USE]
 
-The goal of `{elvis}` is to provide safer render* and observe* in `{shiny}` by providing a native tryCatch() mecanism. 
+The goal of `{elvis}` is to provide safer render* and observe* in `{shiny}` by providing a native tryCatch() mechanism. 
 
 Note that this is an experimental package, so the API might change and some stuff might be buggy.
 
@@ -46,7 +46,7 @@ output$plot <- try_renderPlot({
     stop("a")
   },
   errorHandler = function(e){
-    showNotification("There was an error with the plot")
+    showNotification("There was an error in the plot")
   }
 )
 ```
@@ -54,6 +54,47 @@ output$plot <- try_renderPlot({
 The base idea is to prefix all the functions with `try_`, so that it's easier to port old code to `{elvis}`.
 
 ## Examples
+
+Here is a simple example:
+
+```{r}
+library(shiny)
+library(elvis)
+ui <- fluidPage(
+  actionButton("go", "Go"),
+  plotOutput("plot")
+)
+
+server <- function(input, output, session) {
+  r <- reactiveValues(count = 0)
+
+  output$plot <- try_renderPlot(
+    {
+      if (input$go %% 2 == 0) {
+        plot(sample(1:100, 10))
+      } else {
+        stop("Nop")
+      }
+    },
+    errorHandler = function(e) {
+      isolate({
+        r$count <- r$count + 1
+      })
+    }
+  )
+
+  observeEvent(
+    r$count,
+    {
+      cli::cli_alert_danger(
+        sprintf("It's been %s times", r$count)
+      )
+    }
+  )
+}
+
+shinyApp(ui, server)
+```
 
 ### observers
 
@@ -76,7 +117,7 @@ server <- function(input, output, session) {
       showModal(
         modalDialog(
           easyClose = TRUE,
-          title = "There was an error with the try_observeEvent"
+          title = "There was an error in the try_observeEvent"
         )
       )
     }
@@ -98,7 +139,7 @@ server <- function(input, output, session) {
       showModal(
         modalDialog(
           easyClose = TRUE,
-          title = "There was an error with the try_observe"
+          title = "There was an error in the try_observe"
         )
       )
     }
@@ -134,7 +175,7 @@ server <- function(input, output, session) {
     },
     errorHandler = function(e) {
       showNotification(
-        "There was an error with the plot",
+        "There was an error in the plot",
         type = "error"
       )
     }
@@ -168,7 +209,7 @@ server <- function(input, output, session) {
     },
     errorHandler = function(e) {
       showNotification(
-        "There was an error with the DT",
+        "There was an error in the DT",
         type = "error"
       )
     }
@@ -226,7 +267,7 @@ server <- function(input, output, session) {
     },
     errorHandler = function(e) {
       showNotification(
-        "There was an error with the img",
+        "There was an error in the img",
         type = "error"
       )
     }
@@ -271,7 +312,7 @@ server <- function(input, output, session) {
     },
     errorHandler = function(e) {
       showNotification(
-        "There was an error with the print",
+        "There was an error in the print",
         type = "error"
       )
     }
@@ -306,7 +347,7 @@ server <- function(input, output, session) {
     },
     errorHandler = function(e) {
       showNotification(
-        "There was an error with the text",
+        "There was an error in the text",
         type = "error"
       )
     }
@@ -340,7 +381,7 @@ server <- function(input, output, session) {
     },
     errorHandler = function(e) {
       showNotification(
-        "There was an error with the table",
+        "There was an error in the table",
         type = "error"
       )
     }
@@ -377,7 +418,7 @@ server <- function(input, output, session) {
     },
     errorHandler = function(e) {
       showNotification(
-        "There was an error with the UI",
+        "There was an error in the UI",
         type = "error"
       )
     }
