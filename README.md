@@ -428,8 +428,8 @@ shinyApp(ui, server)
 
 ## Why the name?
 
-With `{elvis}`, you’re \_\_t\_\_rying to r**ender**, and love me tender,
-love me true.
+With `{elvis}`, you’re t(rying to r)ender, t(ry)render, tender… and love
+me tender, love me true.
 
 ## Code of Conduct
 
