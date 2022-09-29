@@ -54,3 +54,49 @@ try_observeEvent <- function(
     once = once
   )
 }
+
+#' Trycatch version of observe
+#'
+#' @inheritParams shiny::observe
+#' @inheritParams try_observeEvent
+#'
+#' @export
+try_observe <- function(
+  x,
+  env = parent.frame(),
+  ...,
+  label = NULL,
+  suspended = FALSE,
+  priority = 0,
+  domain = getDefaultReactiveDomain(),
+  autoDestroy = TRUE,
+  ..stacktraceon = TRUE,
+  errorHandler = elvis::elvis_error_handler,
+  warningHandler = warning
+) {
+  shiny::observe(
+    {
+      substitute({
+        tryCatch(
+          x,
+          error = function(e) {
+            errorHandler(e)
+            return(NULL)
+          },
+          warning = function(w) {
+            warningHandler(w)
+          }
+        )
+      })
+    },
+    env = env,
+    quoted = TRUE,
+    ...,
+    label = label,
+    suspended = suspended,
+    priority = priority,
+    domain = domain,
+    autoDestroy = autoDestroy,
+    ..stacktraceon = ..stacktraceon
+  )
+}
