@@ -11,7 +11,7 @@ try_observe(
   label = NULL,
   suspended = FALSE,
   priority = 0,
-  domain = getDefaultReactiveDomain(),
+  domain = shiny::getDefaultReactiveDomain(),
   autoDestroy = TRUE,
   ..stacktraceon = TRUE,
   errorHandler = elvis::elvis_error_handler,
