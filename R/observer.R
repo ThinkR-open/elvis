@@ -23,6 +23,8 @@ try_observeEvent <- function(
   errorHandler = elvis::elvis_error_handler,
   warningHandler = warning
 ) {
+  event.env_ <- force(event.env)
+  handler.env_ <- force(handler.env)
   shiny::observeEvent(
     substitute(eventExpr),
     {
@@ -41,8 +43,8 @@ try_observeEvent <- function(
     },
     event.quoted = TRUE,
     handler.quoted = TRUE,
-    event.env = event.env,
-    handler.env = handler.env,
+    event.env = event.env_,
+    handler.env = handler.env_,
     ...,
     label = label,
     suspended = suspended,
@@ -74,6 +76,7 @@ try_observe <- function(
   errorHandler = elvis::elvis_error_handler,
   warningHandler = warning
 ) {
+  env_ <- force(env)
   shiny::observe(
     {
       substitute({
@@ -89,7 +92,7 @@ try_observe <- function(
         )
       })
     },
-    env = env,
+    env = env_,
     quoted = TRUE,
     ...,
     label = label,
