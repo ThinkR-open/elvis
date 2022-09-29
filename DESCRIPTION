@@ -1,10 +1,10 @@
 Package: elvis
-Title: What the Package Does (One Line, Title Case)
+Title: 'Shiny' renderers and observers made safer
 Version: 0.0.0.9000
 Authors@R: 
     person("Colin", "Fay", , "contact@colinfay.me", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7343-1846"))
-Description: What the package does (one paragraph).
+Description: The goal of {elvis} is to provide safer render* and observe* in {shiny} by providing a native tryCatch() mechanism.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
