@@ -9,9 +9,10 @@ output: github_document
 # elvis
 
 <!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-[PROOF OF CONCEPT, DO NOT USE]
+[EXPERIMENTAL, DO NOT USE]
 
 The goal of `{elvis}` is to provide safer render* and observe* in `{shiny}` by providing a native tryCatch() mecanism. 
 
@@ -36,7 +37,7 @@ Here comes `{elvis}`, a series of wrappers around `{shiny}` observers and render
 output$plot <- try_renderPlot({
     stop("a")
   },
-  errorHandler = \(e){
+  errorHandler = function(e){
     showNotification("There was an error with the plot")
   }
 )
@@ -64,7 +65,7 @@ server <- function(input, output, session) {
     {
       stop("pif")
     },
-    errorHandler = \(e){
+    errorHandler = function(e) {
       showModal(
         modalDialog(
           easyClose = TRUE,
@@ -86,7 +87,7 @@ server <- function(input, output, session) {
       input$try_observe
       stop("paf")
     },
-    errorHandler = \(e){
+    errorHandler = function(e) {
       showModal(
         modalDialog(
           easyClose = TRUE,
@@ -125,7 +126,7 @@ server <- function(input, output, session) {
       input$plot
       stop("a")
     },
-    errorHandler = \(e){
+    errorHandler = function(e) {
       showNotification(
         "There was an error with the plot",
         type = "error"
@@ -160,7 +161,7 @@ server <- function(input, output, session) {
       input$dt
       stop("a")
     },
-    errorHandler = \(e){
+    errorHandler = function(e) {
       showNotification(
         "There was an error with the DT",
         type = "error"
@@ -219,7 +220,7 @@ server <- function(input, output, session) {
       input$img
       stop("a")
     },
-    errorHandler = \(e){
+    errorHandler = function(e) {
       showNotification(
         "There was an error with the img",
         type = "error"
@@ -265,7 +266,7 @@ server <- function(input, output, session) {
       input$rp
       stop("a")
     },
-    errorHandler = \(e){
+    errorHandler = function(e) {
       showNotification(
         "There was an error with the print",
         type = "error"
@@ -301,7 +302,7 @@ server <- function(input, output, session) {
       input$rt
       stop("a")
     },
-    errorHandler = \(e){
+    errorHandler = function(e) {
       showNotification(
         "There was an error with the text",
         type = "error"
@@ -336,7 +337,7 @@ server <- function(input, output, session) {
       input$dt
       stop("a")
     },
-    errorHandler = \(e){
+    errorHandler = function(e) {
       showNotification(
         "There was an error with the table",
         type = "error"
@@ -374,7 +375,7 @@ server <- function(input, output, session) {
       input$ui
       stop("a")
     },
-    errorHandler = \(e){
+    errorHandler = function(e) {
       showNotification(
         "There was an error with the UI",
         type = "error"
@@ -391,3 +392,12 @@ server <- function(input, output, session) {
 
 shinyApp(ui, server)
 ```
+
+
+## Why the name?
+
+With `{elvis}`, you're __t__rying to r__ender__, and love me tender, love me true.
+
+## Code of Conduct
+
+Please note that the elvis project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
