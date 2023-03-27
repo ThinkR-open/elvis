@@ -18,11 +18,12 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-CMD-check](https://github.com/thinkr-open/elvis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/thinkr-open/elvis/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 [EXPERIMENTAL, DO NOT USE]
 
-The goal of `{elvis}` is to provide safer render* and observe* in `{shiny}` by providing a native tryCatch() mechanism. 
+The goal of `{elvis}` is to provide safer render* and observe* in `{shiny}` by providing a native tryCatch() mechanism.
 
 Note that this is an experimental package, so the API might change and some stuff might be buggy.
 
@@ -34,12 +35,36 @@ You can install the development version of elvis like so:
 remotes::install_github("thinkr-open/elvis")
 ```
 
+## About
+
+You're reading the doc about version : `r pkgload::pkg_version()`
+
+This README has been compiled on the
+
+```{r eval = TRUE}
+Sys.time()
+```
+
+Here are the test & coverage results :
+
+```{r eval = TRUE}
+devtools::check(quiet = TRUE)
+```
+
+```{r echo = FALSE, eval = TRUE}
+unloadNamespace("elvis")
+```
+
+```{r eval = TRUE}
+covr::package_coverage()
+```
+
 ## What the heck
 
-By default, `{shiny}` observers and renderers are not safe, and might stop your app when they fail. 
-One solution is to wrap your code inside tryCatch, but that might be cumbersum to do this every time. 
+By default, `{shiny}` observers and renderers are not safe, and might stop your app when they fail.
+One solution is to wrap your code inside tryCatch, but that might be cumbersum to do this every time.
 
-Here comes `{elvis}`, a series of wrappers around `{shiny}` observers and renderers that have built in tryCatch. 
+Here comes `{elvis}`, a series of wrappers around `{shiny}` observers and renderers that have built in tryCatch.
 
 ```r
 output$plot <- try_renderPlot({

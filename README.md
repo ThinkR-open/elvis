@@ -7,6 +7,7 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-CMD-check](https://github.com/thinkr-open/elvis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/thinkr-open/elvis/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 \[EXPERIMENTAL, DO NOT USE\]
@@ -23,6 +24,42 @@ You can install the development version of elvis like so:
 
 ``` r
 remotes::install_github("thinkr-open/elvis")
+```
+
+## About
+
+You’re reading the doc about version : 0.0.0.9000
+
+This README has been compiled on the
+
+``` r
+Sys.time()
+#> [1] "2023-03-27 11:49:29 CEST"
+```
+
+Here are the test & coverage results :
+
+``` r
+devtools::check(quiet = TRUE)
+#> ℹ Loading elvis
+#> ── R CMD check results ─────────────────────────────────── elvis 0.0.0.9000 ────
+#> Duration: 5.9s
+#> 
+#> 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+```
+
+``` r
+covr::package_coverage()
+#> elvis Coverage: 0.00%
+#> R/observer.R: 0.00%
+#> R/renderDataTable.R: 0.00%
+#> R/renderImage.R: 0.00%
+#> R/renderPlot.R: 0.00%
+#> R/renderPrint.R: 0.00%
+#> R/renderTable.R: 0.00%
+#> R/renderText.R: 0.00%
+#> R/renderUI.R: 0.00%
+#> R/utils.R: 0.00%
 ```
 
 ## What the heck
@@ -150,7 +187,7 @@ shinyApp(ui, server)
 
 ### renderers
 
--   try_renderPlot
+- try_renderPlot
 
 ``` r
 library(elvis)
@@ -184,7 +221,7 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
--   try_renderDataTable
+- try_renderDataTable
 
 ``` r
 library(elvis)
@@ -221,7 +258,7 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
--   try_renderImage
+- try_renderImage
 
 ``` r
 library(elvis)
@@ -286,7 +323,7 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
--   try_renderPrint
+- try_renderPrint
 
 ``` r
 library(elvis)
@@ -320,7 +357,7 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
--   try_renderText
+- try_renderText
 
 ``` r
 library(elvis)
@@ -354,7 +391,7 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
--   try_renderTable
+- try_renderTable
 
 ``` r
 library(elvis)
@@ -391,7 +428,7 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
--   try_renderUI
+- try_renderUI
 
 ``` r
 library(elvis)

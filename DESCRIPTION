@@ -8,6 +8,9 @@ Description: The goal of {elvis} is to provide safer render* and observe* in {sh
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Imports: 
     shiny
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
