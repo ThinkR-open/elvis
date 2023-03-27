@@ -17,7 +17,32 @@ try_renderDataTable(
 )
 }
 \arguments{
-\item{expr}{An expression that generates a plot.}
+\item{expr}{An expression that returns a data frame or a matrix.}
+
+\item{options}{A list of initialization options to be passed to DataTables,
+or a function to return such a list.  You can find a complete list of
+options at \url{https://datatables.net/reference/option/}.
+
+Any top-level strings with class \code{"AsIs"} (as created by \code{\link[=I]{I()}}) will be
+evaluated in JavaScript. This is useful when the type of the option value
+is not supported in JSON, e.g., a JavaScript function, which can be
+obtained by  evaluating a character string. This only applies to the
+root-level elements of options list, and does not worked for lower-level
+elements in the list.}
+
+\item{searchDelay}{The delay for searching, in milliseconds (to avoid too
+frequent search requests).}
+
+\item{callback}{A JavaScript function to be applied to the DataTable object.
+This is useful for DataTables plug-ins, which often require the DataTable
+instance to be available.}
+
+\item{escape}{Whether to escape HTML entities in the table: \code{TRUE} means
+to escape the whole table, and \code{FALSE} means not to escape it.
+Alternatively, you can specify numeric column indices or column names to
+indicate which columns to escape, e.g. \code{1:5} (the first 5 columns),
+\code{c(1, 3, 4)}, or \code{c(-1, -3)} (all columns except the first and
+third), or \code{c('Species', 'Sepal.Length')}.}
 
 \item{env}{The parent environment for the reactive expression. By default,
 this is the calling environment, the same as when defining an ordinary
@@ -25,8 +50,8 @@ non-reactive expression. If \code{expr} is a quosure and \code{quoted} is \code{
 then \code{env} is ignored.}
 
 \item{outputArgs}{A list of arguments to be passed through to the implicit
-call to \code{\link[shiny:plotOutput]{plotOutput()}} when \code{renderPlot} is used in an
-interactive R Markdown document.}
+call to \code{dataTableOutput()} when \code{renderDataTable()} is used
+in an interactive R Markdown document.}
 
 \item{errorHandler, warningHandler}{passed to tryCatch}
 }

@@ -1,7 +1,7 @@
 
 #' try_renderDataTable
 #'
-#' @inheritParams shiny::renderPlot
+#' @inheritParams shiny::renderDataTable
 #' @inheritParams try_observeEvent
 #'
 #' @export
